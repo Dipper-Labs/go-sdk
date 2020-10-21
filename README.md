@@ -1,7 +1,7 @@
 # dip-chain Go SDK
 
 
-- **client**: provide httpClient, LiteClient, RpcClient and TxClient for query or send transaction on dippernetwork
+- **client**: provide httpClient, LcdClient, RpcClient and TxClient for query or send transaction on dippernetwork
 - **keys**: implement KeyManage to manage private key and accounts
 - **types**: common types
 - **util**: define constant and common functions
@@ -76,7 +76,7 @@ import (
 	"github.com/Dipper-Labs/go-sdk/client"
 )
 
-client, err := client.NewChainClient("/home/ubuntu/sdk.yaml")
+client, err := client.NewClient("/home/ubuntu/sdk.yaml")
 ```
 
 Note:
@@ -86,7 +86,7 @@ Note:
 
 after you init dipclient, it include follow clients which you can use:
 
-- `liteClient`: lcd client for dippernetwork
+- `lcdClient`: lcd client for dippernetwork
 - `rpcClient`: query dippernetwork info by rpc
 - `txClient`: send transaction on dippernetwork
 

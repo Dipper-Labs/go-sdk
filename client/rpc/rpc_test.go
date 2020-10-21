@@ -1,9 +1,9 @@
 package rpc
 
 import (
-	"github.com/Dipper-Labs/go-sdk/types"
 	"testing"
 
+	"github.com/Dipper-Labs/go-sdk/types"
 	"github.com/Dipper-Labs/go-sdk/util"
 )
 

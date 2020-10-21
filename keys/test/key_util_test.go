@@ -4,25 +4,19 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	ethsecp256k1 "github.com/ethereum/go-ethereum/crypto/secp256k1"
 	"strings"
 	"testing"
 
-	sdk "github.com/Dipper-Labs/Dipper-Protocol/types"
-
-	"github.com/Dipper-Labs/Dipper-Protocol/hexutil"
-
 	btcsecp256k1 "github.com/btcsuite/btcd/btcec"
-
-	"github.com/Dipper-Labs/go-sdk/keys"
-
+	ethcrypto "github.com/ethereum/go-ethereum/crypto"
+	ethsecp256k1 "github.com/ethereum/go-ethereum/crypto/secp256k1"
+	"github.com/stretchr/testify/require"
+	"github.com/tendermint/tendermint/crypto"
 	"github.com/tendermint/tendermint/crypto/secp256k1"
 
-	"github.com/stretchr/testify/require"
-
-	ethcrypto "github.com/ethereum/go-ethereum/crypto"
-
-	"github.com/tendermint/tendermint/crypto"
+	"github.com/Dipper-Labs/Dipper-Protocol/hexutil"
+	sdk "github.com/Dipper-Labs/Dipper-Protocol/types"
+	"github.com/Dipper-Labs/go-sdk/keys"
 )
 
 const (
@@ -31,6 +25,12 @@ const (
 	address            = "1c0311d33691aa5bf659fe7ae8276cce19b304b5"
 	addressBech32      = "dip1rsp3r5ekjx49hajeleawsfmvecvmxp94hdur8m"
 )
+
+func Test_Bech32AddrToHexAddr(t *testing.T) {
+	addr, err := sdk.AccAddressFromBech32(addressBech32)
+	require.Nil(t, err)
+	require.Equal(t, address, fmt.Sprintf("%x", addr.Bytes()))
+}
 
 func Test_UNCompressedPubKey2CompressedPubKey(t *testing.T) {
 	pubKeyBytes, err := keys.UNCompressedPubKey2CompressedPubKey(uncompressedPubKey)

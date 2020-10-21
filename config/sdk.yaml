@@ -6,7 +6,7 @@ endpoint:
   LiteClientRpcEndpoint: "http://127.0.0.1:1317"
   RPCEndpoint: "http://127.0.0.1:26657"
 
-ChainID: "dip-testnet"
+ChainID: "dip-test"
 
 feeParams:
   TxDefaultGas: 200000
