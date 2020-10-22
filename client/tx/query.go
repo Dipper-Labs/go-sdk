@@ -1,12 +1,13 @@
 package tx
 
 import (
+	"context"
 	"encoding/hex"
 	"fmt"
-
-	"github.com/tendermint/tendermint/crypto"
-
 	"github.com/Dipper-Labs/Dipper-Protocol/app/v0/vm/types"
+	"github.com/Dipper-Labs/Dipper-Protocol/hexutil"
+	ethcrypto "github.com/ethereum/go-ethereum/crypto"
+	"github.com/tendermint/tendermint/crypto"
 )
 
 func (c *client) QueryContractEvents(contractBech32Addr string, startBlockNum int64, endBlockNum int64) (result []string, err error) {
@@ -39,4 +40,47 @@ func (c *client) QueryContractEvents(contractBech32Addr string, startBlockNum in
 	}
 
 	return result, nil
+}
+
+func (c *client) SubVmEventWithTopic(ctx context.Context, subscriber, contractAddr, topic string) (out <-chan interface{}, err error) {
+	err = c.rpcClient.Start()
+	if err != nil {
+		return nil, err
+	}
+
+	query := fmt.Sprintf("tm.event='Tx' AND contract_called.address='%s'", contractAddr)
+	ch, err := c.rpcClient.Subscribe(ctx, subscriber, query)
+	if err != nil {
+		return nil, err
+	}
+
+	topicHash := fmt.Sprintf("%x", ethcrypto.Keccak256([]byte(topic)))
+
+	c1 := make(chan interface{})
+
+	go func() {
+		for event := range ch {
+			for _, txIdStr := range event.Events["tx.hash"] {
+				txId, err := hexutil.Decode(txIdStr)
+				if err != nil {
+					continue
+				}
+
+				clog, err := c.lcdClient.QueryContractLog(txId)
+				if err != nil {
+					continue
+				}
+
+				for _, log := range clog.Result.Logs {
+					for _, t := range log.Topics {
+						if t == topicHash {
+							c1 <- log
+						}
+					}
+				}
+			}
+		}
+	}()
+
+	return c1, nil
 }

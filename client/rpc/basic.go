@@ -1,6 +1,7 @@
 package rpc
 
 import (
+	"context"
 	tmrpcclient "github.com/tendermint/tendermint/rpc/client"
 	tmrpctypes "github.com/tendermint/tendermint/rpc/core/types"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -13,6 +14,10 @@ type RpcClient interface {
 	GetNodeStatus() (NodeStatus, error)
 	GetTx(hash string) (Tx, error)
 	GetBlock(height int64) (*tmrpctypes.ResultBlock, error)
+	Subscribe(ctx context.Context, subscriber, query string) (out <-chan tmrpctypes.ResultEvent, err error)
+	UnSubscribe(ctx context.Context, subscriber, query string) error
+	UnSubscribeAll(ctx context.Context, subscriber string) error
+	Start() error
 }
 
 type client struct {

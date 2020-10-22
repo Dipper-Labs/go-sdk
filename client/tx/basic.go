@@ -1,6 +1,8 @@
 package tx
 
 import (
+	"context"
+
 	sdk "github.com/Dipper-Labs/Dipper-Protocol/types"
 	"github.com/Dipper-Labs/go-sdk/client/lcd"
 	"github.com/Dipper-Labs/go-sdk/client/rpc"
@@ -13,6 +15,7 @@ type Client interface {
 	SendToken(toAddrBech32 string, amount []types.Coin, memo string, commit bool) (types.BroadcastTxResult, error)
 	ContractCall(contractAddrBech32 string, payload []byte, amount sdk.Coin, commit bool) (types.BroadcastTxResult, error)
 	QueryContractEvents(contractBech32Addr string, startBlockNum int64, endBlockNum int64) ([]string, error)
+	SubVmEventWithTopic(ctx context.Context, subscriber, contractAddr, topic string) (out <-chan interface{}, err error)
 }
 
 type client struct {
