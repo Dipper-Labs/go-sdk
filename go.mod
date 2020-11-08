@@ -3,7 +3,7 @@ module github.com/Dipper-Labs/go-sdk
 go 1.13
 
 require (
-	github.com/Dipper-Labs/Dipper-Protocol v1.0.0
+	github.com/Dipper-Labs/Dipper-Protocol v0.0.0-20201103114409-9e306c5ed78f
 	github.com/btcsuite/btcd v0.20.1-beta
 	github.com/elazarl/goproxy v0.0.0-20191011121108-aa519ddbe484 // indirect
 	github.com/ethereum/go-ethereum v1.9.19
