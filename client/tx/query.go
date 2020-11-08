@@ -23,7 +23,7 @@ func (c *client) QueryContractEvents(contractBech32Addr string, startBlockNum in
 
 			if res, err := c.rpcClient.GetTx(hex.EncodeToString(txhash)); err == nil {
 				msg := res.StdTx.Msgs[0]
-				if msg.Type() == types.TypeMsgContract {
+				if msg.Type() == types.TypeMsgContractCreate || msg.Type() == types.TypeMsgContractCall {
 					msgContract, _ := msg.(types.MsgContract)
 					targetContractAddr := msgContract.To.String()
 					if contractBech32Addr != targetContractAddr {
