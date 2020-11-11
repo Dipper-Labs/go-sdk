@@ -1,6 +1,5 @@
 keystore:
   KeyStoreFileAbsPath: "/Users/sun/go/src/github.com/Dipper-Labs/go-sdk/config/keystore"
-  KeyStorePasswd: "11111111"
 
 endpoint:
   LiteClientRpcEndpoint: "http://127.0.0.1:1317"

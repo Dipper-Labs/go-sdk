@@ -13,7 +13,7 @@ const (
 	DefaultKeyStorePasswd        = "11111111"
 	DefaultLiteClientRpcEndpoint = "http://127.0.0.1:1317"
 	DefaultRPCEndpoint           = "http://127.0.0.1:26657"
-	DefaultChainID               = "dip-chain"
+	DefaultChainID               = "dipperhup"
 	DefaultTxDefaultGas          = uint64(200000)
 	DefaultTxDefaultFeeAmount    = int64(500000)
 )
@@ -40,11 +40,6 @@ func Init(sdkConfigFileAbsPath string) {
 	}
 
 	KeyStoreFileAbsPath, err = SDK.String("keystore.KeyStoreFileAbsPath")
-	if err != nil {
-		panic(err)
-	}
-
-	KeyStorePasswd, err = SDK.String("keystore.KeyStorePasswd")
 	if err != nil {
 		panic(err)
 	}
@@ -83,4 +78,8 @@ func Init(sdkConfigFileAbsPath string) {
 		panic(errors.New(fmt.Sprintf("feeParams.tmpTxDefaultFeeAmount must > 0")))
 	}
 	TxDefaultFeeAmount = int64(tmpTxDefaultFeeAmount)
+}
+
+func SetKeystorePassword(password string) {
+	KeyStorePasswd = password
 }
